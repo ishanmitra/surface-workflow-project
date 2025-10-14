@@ -11,7 +11,7 @@ export function SidebarUser() {
     >
         <Image src={User} alt="User" width={28} height={28} className="w-7 h-7 object-none rounded-full object-[-2px_-8px]"/>
         <div className="flex flex-col items-start leading-none">
-            <p className="font-semibold">Chris Hood</p>
+            <p className="font-medium">Chris Hood</p>
             <p className="text-xs text-[#6c7385] font-medium">hello@example.com</p>
         </div>
     </Button>

@@ -1,7 +1,7 @@
 import "~/styles/globals.css";
 import localFont from 'next/font/local';
 
-import { SidebarProvider, SidebarTrigger } from "~/components/ui/sidebar"
+import { SidebarProvider } from "~/components/ui/sidebar"
 import { AppSidebar } from "~/components/app-sidebar"
 
 import { type Metadata } from "next";
@@ -42,7 +42,7 @@ export default function RootLayout({
       <body>
         <SidebarProvider>
           <AppSidebar />
-          <main>
+          <main className="m-10.5 w-full">
             {children}
           </main>
         </SidebarProvider>
