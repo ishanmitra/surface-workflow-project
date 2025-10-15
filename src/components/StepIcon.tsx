@@ -2,11 +2,11 @@ import { RiCheckFill } from "react-icons/ri";
 import { BiSolidErrorCircle } from "react-icons/bi";
 
 interface StepIconProps {
-  status?: 'inactive' | 'success' | 'error';
+  result?: 'inactive' | 'test' | 'success' | 'error';
 }
 
-export function StepIcon({ status = 'inactive' }: StepIconProps) {
-  switch (status) {
+export function StepIcon({ result = 'inactive' }: StepIconProps) {
+  switch (result) {
     case 'success':
       return (
         <div className="w-6 h-6 bg-[#cdfee1] rounded-full flex items-center justify-center self-center">
@@ -23,6 +23,7 @@ export function StepIcon({ status = 'inactive' }: StepIconProps) {
       );
 
     case 'inactive':
+    case 'test':
     default:
       return (
         <div className="w-6 h-6 bg-[#f3f3f3] rounded-full flex items-center justify-center self-center">

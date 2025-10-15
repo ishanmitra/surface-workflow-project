@@ -127,3 +127,13 @@ html {
     @apply bg-background text-foreground;
   }
 }
+
+/* Force normal font style for code block line numbers */
+.syntax-highlighter-line-numbers {
+  & span {
+    font-style: normal !important;
+  }
+  & * {
+    font-style: normal !important;
+  }
+}
