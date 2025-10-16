@@ -15,7 +15,7 @@ import {
 import { StepIcon } from "~/components/StepIcon";
 import { cn } from "~/lib/utils";
 import { Manrope, Inter } from "next/font/google";
-import React, { cloneElement, type ReactElement } from "react";
+import React, { cloneElement, type Dispatch, type ReactElement, type SetStateAction } from "react";
 
 const inter = Inter({ subsets: ['latin'], weight: ['400'] });
 const manrope = Manrope({ subsets: ['latin'], weight: ['600'] });
@@ -26,7 +26,11 @@ interface StepCardProps {
   actionLabel: string;
   actionVariant: 'primary' | 'secondary';
   result?: 'inactive' | 'test' | 'success' | 'error';
-  children: ReactElement<{ result?: 'inactive' | 'test' | 'success' | 'error' }>;
+  setResult: Dispatch<SetStateAction<"inactive" | "test" | "success" | "error">>;
+  children: ReactElement<{ 
+    result?: 'inactive' | 'test' | 'success' | 'error';
+    setResult?: Dispatch<SetStateAction<"inactive" | "test" | "success" | "error">>;
+  }>;
 }
 
 export default function StepCard({
@@ -35,6 +39,7 @@ export default function StepCard({
   actionLabel,
   actionVariant,
   result,
+  setResult,
   children,
 }: StepCardProps) {
   const buttonStyles =
@@ -44,7 +49,7 @@ export default function StepCard({
 
   const clonedChildren = React.Children.map(children, (child) => {
     if (React.isValidElement(child)) {
-      return cloneElement(child, { result });
+      return cloneElement(child, { result, setResult });
     }
     return child;
   });

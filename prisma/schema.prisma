@@ -10,11 +10,11 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Post {
-    id        Int      @id @default(autoincrement())
-    name      String
+model Event {
+    id        String   @id @default(cuid())
+    type      String
+    pageUrl   String?
+    visitorId String
+    metadata  Json?
     createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-
-    @@index([name])
 }

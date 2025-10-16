@@ -1,11 +1,21 @@
 import { CodeBlock, CodeBlockCopyButton } from "~/components/ai-elements/code-block";
 import { Button } from "~/components/ui/button";
 import { Manrope } from "next/font/google";
-import React from "react";
+import React, { type Dispatch, type SetStateAction } from "react";
 import ResultBar from "./ResultBar";
+
+interface Event {
+  id: string;
+  type: string;
+  pageUrl: string;
+  visitorId: string;
+  metadata: Record<string, unknown>;
+  createdAt: string;
+}
 
 interface InstallTagStepProps {
   result?: 'inactive' | 'test' | 'success' | 'error';
+  setResult?: Dispatch<SetStateAction<"inactive" | "test" | "success" | "error">>;
 }
 
 const manrope = Manrope({ subsets: ['latin'], weight: ['600'] });
@@ -26,7 +36,31 @@ const code = `<script>
   })(window, document, 'script', 'surface', 'SURFACE_TAG_ID');
 </script>`;
 
-function InstallTagStep({ result }: InstallTagStepProps) {
+function InstallTagStep({ result, setResult }: InstallTagStepProps) {
+  const verifyInstallation = async () => {
+    if (!setResult) return;
+    setResult("test");
+    try {
+      // Add minimum 500ms delay
+      const [eventsResponse] = await Promise.all([
+        fetch("/api/events"),
+        new Promise(resolve => setTimeout(resolve, 500))
+      ]);
+      
+      const events = (await eventsResponse.json()) as Event[];
+      const hasValidEvent = events.some(
+        (event) => 
+          event.type === "script_initialized" && 
+          event.pageUrl === "https://ishanmitra.github.io/tracker-test/"
+      );
+      
+      setResult(hasValidEvent ? "success" : "error");
+    } catch(error) {
+      console.log(error);
+      setResult("error");
+    }
+  };
+
   const buttonProps = {
     disabled: result === "test",
     text:
@@ -49,7 +83,11 @@ function InstallTagStep({ result }: InstallTagStepProps) {
         <ResultBar result={result} />
       </div>
       <div className="flex justify-end">
-        <Button {...buttonProps} className={`${manrope.className} font-semibold bg-[#2f64ee] hover:bg-[#0b2d84] disabled:text-[#5f6065] disabled:bg-[#f1f1f2] disabled:opacity-100 mx-6 cursor-pointer`}>
+        <Button 
+          {...buttonProps} 
+          onClick={verifyInstallation}
+          className={`${manrope.className} font-semibold bg-[#2f64ee] hover:bg-[#0b2d84] disabled:text-[#5f6065] disabled:bg-[#f1f1f2] disabled:opacity-100 mx-6 cursor-pointer`}
+        >
           {buttonProps.text}
         </Button>
       </div>
