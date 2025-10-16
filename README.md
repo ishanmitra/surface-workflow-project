@@ -1,29 +1,49 @@
-# Create T3 App
+# Surface Workflow Project
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+A web analytics tracking system with a Next.js dashboard and PostgreSQL database.
 
-## What's next? How do I make an app with this?
+## Installation
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+1. Install dependencies:
+```bash
+pnpm install
+```
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+2. Push the database schema:
+```bash
+pnpm db:push
+```
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Drizzle](https://orm.drizzle.team)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+This command will enforce the Prisma schema and create necessary database tables.
 
-## Learn More
+## Database Management
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+To access the web interface for the PostgreSQL database:
+```bash
+pnpm prisma studio
+```
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+This will open Prisma Studio in your browser where you can view and manage your data.
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+## Tracking Implementation
 
-## How do I deploy this?
+The analytics tracker is configured to track events and clicks exclusively on:
+```
+https://ishanmitra.github.io/tracker-test/
+```
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+Visit the website, click elements and enter any random valid email id. The frontend application shows a success connection if it is able to detect a `script_initialized` event. Removing this event inside Prisma Studio results in an error message.
+
+### Tracker Code
+The tracking implementation code can be found in the `/static` directory. The script can be embedded in your HTML to start collecting analytics data:
+- Main script: `/static/script/surface_analytics.js`
+- Demo page: `/static/index.html`
+
+## Project Structure
+
+- `/src` - Next.js application source code
+- `/prisma` - Database schema and migrations
+- `/static` - Analytics tracking script and demo page
+- `/src/app` - NextJS frontend source code
+- `/src/components` - Reusable UI components
+- `/src/lib` - Utility functions and database client
