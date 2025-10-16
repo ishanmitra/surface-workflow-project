@@ -7,6 +7,8 @@ import { useState } from "react";
 
 export default function HomePage() {
   const [ result, setResult ] = useState<'inactive' | 'test' | 'success' | 'error'>('inactive');
+  const [ isOpen1, setIsOpen1 ] = useState<boolean>(false);
+  const [ isOpen2, setIsOpen2 ] = useState<boolean>(false);
 
   return (
     <>
@@ -21,8 +23,10 @@ export default function HomePage() {
         setResult={setResult}
         actionLabel="Install Tag"
         actionVariant="primary"
+        isOpen={isOpen1}
+        setIsOpen={setIsOpen1}
       >
-        <InstallTagStep />
+        <InstallTagStep open1={setIsOpen1} open2={setIsOpen2} />
       </StepCard>
 
       <StepCard
@@ -32,6 +36,8 @@ export default function HomePage() {
         setResult={setResult}
         actionLabel="Test Tag"
         actionVariant="secondary"
+        isOpen={isOpen2}
+        setIsOpen={setIsOpen2}
       >
         <TestTagStep />
       </StepCard>

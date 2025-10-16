@@ -16,6 +16,8 @@ interface Event {
 interface InstallTagStepProps {
   result?: 'inactive' | 'test' | 'success' | 'error';
   setResult?: Dispatch<SetStateAction<"inactive" | "test" | "success" | "error">>;
+  open1: Dispatch<SetStateAction<boolean>>;
+  open2: Dispatch<SetStateAction<boolean>>;
 }
 
 const manrope = Manrope({ subsets: ['latin'], weight: ['600'] });
@@ -36,7 +38,7 @@ const code = `<script>
   })(window, document, 'script', 'surface', 'SURFACE_TAG_ID');
 </script>`;
 
-function InstallTagStep({ result, setResult }: InstallTagStepProps) {
+function InstallTagStep({ result, setResult, open1, open2 }: InstallTagStepProps) {
   const verifyInstallation = async () => {
     if (!setResult) return;
     setResult("test");
@@ -85,7 +87,10 @@ function InstallTagStep({ result, setResult }: InstallTagStepProps) {
       <div className="flex justify-end">
         <Button 
           {...buttonProps} 
-          onClick={verifyInstallation}
+          onClick={result === "success" ? () => {
+            open1(false);
+            open2(true);
+          } : verifyInstallation}
           className={`${manrope.className} font-semibold bg-[#2f64ee] hover:bg-[#0b2d84] disabled:text-[#5f6065] disabled:bg-[#f1f1f2] disabled:opacity-100 mx-6 cursor-pointer`}
         >
           {buttonProps.text}

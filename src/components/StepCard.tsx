@@ -27,6 +27,8 @@ interface StepCardProps {
   actionVariant: 'primary' | 'secondary';
   result?: 'inactive' | 'test' | 'success' | 'error';
   setResult: Dispatch<SetStateAction<"inactive" | "test" | "success" | "error">>;
+  isOpen: boolean;
+  setIsOpen: Dispatch<SetStateAction<boolean>>;
   children: ReactElement<{ 
     result?: 'inactive' | 'test' | 'success' | 'error';
     setResult?: Dispatch<SetStateAction<"inactive" | "test" | "success" | "error">>;
@@ -40,6 +42,8 @@ export default function StepCard({
   actionVariant,
   result,
   setResult,
+  isOpen,
+  setIsOpen,
   children,
 }: StepCardProps) {
   const buttonStyles =
@@ -55,7 +59,7 @@ export default function StepCard({
   });
 
   return (
-    <Collapsible className="mb-9">
+    <Collapsible className="mb-9" open={isOpen} onOpenChange={setIsOpen}>
       <Card className="rounded-[8px] border-2 border-[#ebedf3] shadow-[0px_1.2px_3.99px_0px_#00000007,0px_4.02px_13.4px_0px_#0000000B]">
         <CollapsibleTrigger className="h-fit group">
           <CardHeader className="flex h-fit px-0 mx-6 gap-[23px]">
