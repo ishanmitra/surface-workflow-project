@@ -9,6 +9,7 @@ export default function HomePage() {
   const [ result, setResult ] = useState<'inactive' | 'test' | 'success' | 'error'>('inactive');
   const [ isOpen1, setIsOpen1 ] = useState<boolean>(false);
   const [ isOpen2, setIsOpen2 ] = useState<boolean>(false);
+  const [ isUrl, setIsUrl ] = useState<string>("");
 
   return (
     <>
@@ -26,7 +27,7 @@ export default function HomePage() {
         isOpen={isOpen1}
         setIsOpen={setIsOpen1}
       >
-        <InstallTagStep open1={setIsOpen1} open2={setIsOpen2} />
+        <InstallTagStep open1={setIsOpen1} open2={setIsOpen2} isUrl={isUrl} setIsUrl={setIsUrl} />
       </StepCard>
 
       <StepCard
@@ -36,10 +37,10 @@ export default function HomePage() {
         setResult={setResult}
         actionLabel="Test Tag"
         actionVariant="secondary"
-        isOpen={isOpen2}
+        isOpen={isOpen2 && isUrl !== "" && result == "success"}
         setIsOpen={setIsOpen2}
       >
-        <TestTagStep />
+        <TestTagStep isUrl={isUrl} />
       </StepCard>
     </>
   );

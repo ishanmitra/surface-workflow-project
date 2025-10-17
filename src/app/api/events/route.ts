@@ -13,9 +13,9 @@ interface EventPayload {
   metadata?: Prisma.InputJsonValue;
 }
 
-// Allows CORS only for the tracker test site
+// Allows CORS only for all sites
 function withCors(response: NextResponse) {
-  response.headers.set("Access-Control-Allow-Origin", "https://ishanmitra.github.io");
+  response.headers.set("Access-Control-Allow-Origin", "*");
   response.headers.set("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
   response.headers.set("Access-Control-Allow-Headers", "Content-Type");
   return response;

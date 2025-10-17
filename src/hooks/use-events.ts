@@ -9,7 +9,7 @@ interface Event {
   pageUrl?: string | null;
 }
 
-export function useEvents(pollingInterval = 5000) {
+export function useEvents(pollingInterval = 5000, isUrl?: string) {
   const [events, setEvents] = useState<Event[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
@@ -25,7 +25,10 @@ export function useEvents(pollingInterval = 5000) {
         }
         const data = (await response.json()) as Event[];
         if (mounted) {
-          setEvents(data);
+          const filteredEvents = isUrl 
+            ? data.filter(event => event.pageUrl === isUrl)
+            : data;
+          setEvents(filteredEvents);
           setError(null);
         }
       } catch (err) {
@@ -52,7 +55,7 @@ export function useEvents(pollingInterval = 5000) {
       mounted = false;
       clearInterval(intervalId);
     };
-  }, [pollingInterval]);
+  }, [pollingInterval, isUrl]);
 
   return { events, isLoading, error };
 }

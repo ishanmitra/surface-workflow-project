@@ -13,8 +13,12 @@ import { Spinner } from "~/components/ui/spinner";
 
 const manrope = Manrope({ subsets: ['latin'], weight: ['600'] });
 
-export default function TestTagStep() {
-  const { events, isLoading, error } = useEvents(5000); // Poll every 5 seconds
+interface TestTagProps {
+  isUrl: string;
+}
+
+export default function TestTagStep({ isUrl }: TestTagProps) {
+  const { events, isLoading, error } = useEvents(5000, isUrl); // Poll every 5 seconds
 
   if (error) {
     return (
